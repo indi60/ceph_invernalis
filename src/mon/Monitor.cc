@@ -4213,7 +4213,7 @@ void Monitor::handle_get_version(MonOpRequestRef op)
 
 bool Monitor::ms_handle_reset(Connection *con)
 {
-  dout(10) << "ms_handle_reset " << con << " " << con->get_peer_addr() << dendl;
+  dout(10) << " agung: ms_handle_reset " << con << " " << con->get_peer_addr() << dendl;
 
   // ignore lossless monitor sessions
   if (con->get_peer_type() == CEPH_ENTITY_TYPE_MON)

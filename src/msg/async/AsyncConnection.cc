@@ -95,6 +95,9 @@ class C_handle_remote_reset : public EventCallback {
   C_handle_remote_reset(AsyncMessenger *m, AsyncConnectionRef c): msgr(m), conn(c) {}
   void do_request(int id) {
     msgr->ms_deliver_handle_remote_reset(conn.get());
+   // ldout(10) << " C_handle_remote_reset" << dendl;
+   // lderr(msgr->cct) << __func__ << " C_handle_remote_reset: " << pp_strerror(errno) << dendl;
+   ldout(cct, 20) << __func__ << "C_handle_remote_reset" << id << dendl;
   }
 };
 

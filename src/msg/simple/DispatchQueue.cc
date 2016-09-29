@@ -150,6 +150,7 @@ void DispatchQueue::run_local_delivery()
  */
 void DispatchQueue::entry()
 {
+  ldout(cct,10) << " agung: DispatchQueue::entry " << dendl;
   lock.Lock();
   while (true) {
     while (!mqueue.empty()) {
@@ -170,6 +171,7 @@ void DispatchQueue::entry()
 	  msgr->ms_deliver_handle_accept(qitem.get_connection());
 	  break;
 	case D_BAD_RESET:
+    ldout(cct,10) << " agung: DispatchQueue::entry " << dendl;
 	  msgr->ms_deliver_handle_reset(qitem.get_connection());
 	  break;
 	default:

@@ -86,3 +86,4 @@ GTAGS
 
 # common cmake build dir
 /build
+src/civetweb
