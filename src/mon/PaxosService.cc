@@ -237,6 +237,7 @@ bool PaxosService::should_stash_full()
 
 void PaxosService::restart()
 {
+  dout(10) << "agung: restart" << dendl;
   dout(10) << "restart" << dendl;
   if (proposal_timer) {
     dout(10) << " canceling proposal_timer " << proposal_timer << dendl;

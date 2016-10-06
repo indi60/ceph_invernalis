@@ -201,6 +201,8 @@ void DispatchQueue::entry()
 }
 
 void DispatchQueue::discard_queue(uint64_t id) {
+  ldout(cct,10) << " agung: DispatchQueue::discard_queue " << dendl;
+
   Mutex::Locker l(lock);
   list<QueueItem> removed;
   mqueue.remove_by_class(id, &removed);
@@ -217,6 +219,8 @@ void DispatchQueue::discard_queue(uint64_t id) {
 
 void DispatchQueue::start()
 {
+  ldout(cct,10) << " agung: DispatchQueue::start " << dendl;
+
   assert(!stop);
   assert(!dispatch_thread.is_started());
   dispatch_thread.create();
@@ -242,6 +246,8 @@ void DispatchQueue::discard_local()
 
 void DispatchQueue::shutdown()
 {
+  ldout(cct,10) << " agung: DispatchQueue::shutdown " << dendl;
+
   // stop my local delivery thread
   local_delivery_lock.Lock();
   stop_local_delivery = true;

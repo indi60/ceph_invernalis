@@ -42,6 +42,7 @@ inline std::ostream& operator<<(std::ostream& out, _bad_endl_use_dendl_t) {
 // generic macros
 #define dout_prefix *_dout
 
+// create a line of log
 #define dout_impl(cct, sub, v)						\
   do {									\
   if (cct->_conf->subsys.should_gather(sub, v)) {			\
@@ -55,6 +56,8 @@ inline std::ostream& operator<<(std::ostream& out, _bad_endl_use_dendl_t) {
 
 #define lsubdout(cct, sub, v)  dout_impl(cct, ceph_subsys_##sub, v) dout_prefix
 #define ldout(cct, v)  dout_impl(cct, dout_subsys, v) dout_prefix
+// #define agungdout(v)  dout_impl(cct, dout_subsys, v) dout_prefix
+
 #define lderr(cct) dout_impl(cct, ceph_subsys_, -1) dout_prefix
 
 #define lgeneric_subdout(cct, sub, v) dout_impl(cct, ceph_subsys_##sub, v) *_dout

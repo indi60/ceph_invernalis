@@ -83,6 +83,9 @@ class C_handle_reset : public EventCallback {
  public:
   C_handle_reset(AsyncMessenger *m, AsyncConnectionRef c): msgr(m), conn(c) {}
   void do_request(int id) {
+    // ldout << "agung: C_handle_reset " ;
+    cout << " agung: C_handle_reset " ;
+    // ldout(10) << " sendmsg got r==0!" << dendl;
     msgr->ms_deliver_handle_reset(conn.get());
   }
 };
@@ -94,10 +97,11 @@ class C_handle_remote_reset : public EventCallback {
  public:
   C_handle_remote_reset(AsyncMessenger *m, AsyncConnectionRef c): msgr(m), conn(c) {}
   void do_request(int id) {
+    cout << "Agung: C_handle_remote_reset";
+   // ldout(cct, 20) << __func__ << "C_handle_remote_reset" << id << dendl;
     msgr->ms_deliver_handle_remote_reset(conn.get());
    // ldout(10) << " C_handle_remote_reset" << dendl;
    // lderr(msgr->cct) << __func__ << " C_handle_remote_reset: " << pp_strerror(errno) << dendl;
-   ldout(cct, 20) << __func__ << "C_handle_remote_reset" << id << dendl;
   }
 };
 

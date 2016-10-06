@@ -87,8 +87,9 @@
 #define dout_subsys ceph_subsys_mon
 #undef dout_prefix
 #define dout_prefix _prefix(_dout, this)
+/* Agung: prefix for log */
 static ostream& _prefix(std::ostream *_dout, const Monitor *mon) {
-  return *_dout << "mon." << mon->name << "@" << mon->rank
+  return *_dout << " mon." << mon->name << "@" << mon->rank
 		<< "(" << mon->get_state_name() << ") e" << mon->monmap->get_epoch() << " ";
 }
 
@@ -1016,6 +1017,8 @@ bool Monitor::_add_bootstrap_peer_hint(string cmd, cmdmap_t& cmdmap, ostream& ss
 // called by bootstrap(), or on leader|peon -> electing
 void Monitor::_reset()
 {
+  // dout(10) <<  "agung: Monitor::_reset" << dendl;
+
   dout(10) << __func__ << dendl;
 
   cancel_probe_timeout();
@@ -4213,7 +4216,9 @@ void Monitor::handle_get_version(MonOpRequestRef op)
 
 bool Monitor::ms_handle_reset(Connection *con)
 {
-  dout(10) << " agung: ms_handle_reset " << con << " " << con->get_peer_addr() << dendl;
+  dout(10) << " agung: ms_handle_reset msgr:" << 
+        con->get_messenger() << " peer addr:" << 
+        con->get_peer_addr() << dendl;
 
   // ignore lossless monitor sessions
   if (con->get_peer_type() == CEPH_ENTITY_TYPE_MON)
