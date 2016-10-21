@@ -71,6 +71,8 @@ SimpleMessenger::~SimpleMessenger()
 
 void SimpleMessenger::ready()
 {
+  ldout(cct,10) << "agung:SimpleMessenger::ready get_myaddr=" << get_myaddr() << dendl;
+
   ldout(cct,10) << "ready " << get_myaddr() << dendl;
   dispatch_queue.start();
 

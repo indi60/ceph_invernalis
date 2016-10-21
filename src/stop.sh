@@ -16,6 +16,8 @@
 # GNU Library Public License for more details.
 #
 
+echo "stops.sh is running "
+
 test -d dev/osd0/. && test -e dev/sudo && SUDO="sudo"
 
 if [ -e CMakeCache.txt ]; then
@@ -24,10 +26,12 @@ else
   [ -z "$CEPH_BIN" ] && CEPH_BIN=.
 fi
 
+
 MYUID=$(id -u)
 MYNAME=$(id -nu)
 
 do_killall() {
+    echo "agung "$1
     pg=`pgrep -u $MYUID -f ceph-run.*$1`
     [ -n "$pg" ] && kill $pg
     $SUDO killall -u $MYNAME $1
@@ -44,17 +48,21 @@ stop_rgw=0
 while [ $# -ge 1 ]; do
     case $1 in
         all )
+            echo "agung: stop all "
             stop_all=1
             ;;
         mon | ceph-mon )
+            echo "agung: stop monitor "
             stop_mon=1
             stop_all=0
             ;;
         mds | ceph-mds )
+            echo "agung: stop msd "
             stop_mds=1
             stop_all=0
             ;;
         osd | ceph-osd )
+            echo "agung: stop osd "
             stop_osd=1
             stop_all=0
             ;;
@@ -66,6 +74,7 @@ while [ $# -ge 1 ]; do
 done
 
 if [ $stop_all -eq 1 ]; then
+    echo "agung: $stop_all -eq 1 "
     while read DEV; do
         # While it is currently possible to create an rbd image with
         # whitespace chars in its name, krbd will refuse mapping such
@@ -83,8 +92,10 @@ if [ $stop_all -eq 1 ]; then
     for p in ceph-mon ceph-mds ceph-osd radosgw lt-radosgw apache2 ; do
         for try in 0 1 1 1 1 ; do
             if ! pkill -u $MYUID $p ; then
+                echo "agung: MYUID="$MYUID
                 break
             fi
+            echo "agung: try="$try
             sleep $try
         done
     done
@@ -93,6 +104,7 @@ if [ $stop_all -eq 1 ]; then
     $SUDO pkill -u $MYUID -f valgrind.bin.\*ceph-osd
     pkill -u $MYUID -f valgrind.bin.\*ceph-mds
 else
+    echo "agung: else kill all"    
     [ $stop_mon -eq 1 ] && do_killall ceph-mon
     [ $stop_mds -eq 1 ] && do_killall ceph-mds
     [ $stop_osd -eq 1 ] && do_killall ceph-osd

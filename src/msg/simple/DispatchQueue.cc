@@ -20,6 +20,9 @@
 #define dout_subsys ceph_subsys_ms
 #include "common/debug.h"
 
+// agung add this
+#include <iostream>
+#include <string>
 
 /*******************
  * DispatchQueue
@@ -150,7 +153,9 @@ void DispatchQueue::run_local_delivery()
  */
 void DispatchQueue::entry()
 {
-  ldout(cct,10) << " agung: DispatchQueue::entry " << dendl;
+
+  // cout << "Come up and C++ me some time." << endl;
+  ldout(cct,0) << " agung: DispatchQueue::entry " << dendl;
   lock.Lock();
   while (true) {
     while (!mqueue.empty()) {
@@ -171,7 +176,7 @@ void DispatchQueue::entry()
 	  msgr->ms_deliver_handle_accept(qitem.get_connection());
 	  break;
 	case D_BAD_RESET:
-    ldout(cct,10) << " agung: DispatchQueue::entry " << dendl;
+    ldout(cct,0) << " agung:RESET DispatchQueue::D_BAD_RESET " << dendl;
 	  msgr->ms_deliver_handle_reset(qitem.get_connection());
 	  break;
 	default:
@@ -219,7 +224,7 @@ void DispatchQueue::discard_queue(uint64_t id) {
 
 void DispatchQueue::start()
 {
-  ldout(cct,10) << " agung: DispatchQueue::start " << dendl;
+  ldout(cct,0) << " agung: DispatchQueue::start " << dendl;
 
   assert(!stop);
   assert(!dispatch_thread.is_started());

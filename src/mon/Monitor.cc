@@ -84,6 +84,9 @@
 #include "common/cmdparse.h"
 #include "include/assert.h"
 
+//agung add 
+#include <boost/scope_exit.hpp>
+
 #define dout_subsys ceph_subsys_mon
 #undef dout_prefix
 #define dout_prefix _prefix(_dout, this)
@@ -1843,6 +1846,9 @@ void Monitor::win_election(epoch_t epoch, set<int>& active, uint64_t features,
                            const MonCommand *cmdset, int cmdsize,
                            const set<int> *classic_monitors)
 {
+  dout(10) << "agung: win election epoch=" << epoch << " features=" << features << " classic_monitors=" << classic_monitors << dendl;
+
+
   dout(10) << __func__ << " epoch " << epoch << " quorum " << active
 	   << " features " << features << dendl;
   assert(is_electing());
@@ -2563,6 +2569,7 @@ bool Monitor::is_keyring_required()
 
 void Monitor::handle_command(MonOpRequestRef op)
 {
+
   assert(op->is_type_command());
   MMonCommand *m = static_cast<MMonCommand*>(op->get_req());
   if (m->fsid != monmap->fsid) {
@@ -2571,8 +2578,14 @@ void Monitor::handle_command(MonOpRequestRef op)
     return;
   }
 
+  MonSession *session2 = static_cast<MonSession *>(
+    m->get_connection()->get_priv());
+
+  // MonSession session_2 = static_cast<MonSession *>(m->get_connection()->get_priv());
   MonSession *session = m->get_session();
   assert(session);
+
+  dout(0) << "agung: OLD session=" << session  << " | current session=" << session2 << dendl;
 
   if (m->cmd.empty()) {
     string rs = "No command supplied";
@@ -4216,7 +4229,7 @@ void Monitor::handle_get_version(MonOpRequestRef op)
 
 bool Monitor::ms_handle_reset(Connection *con)
 {
-  dout(10) << " agung: ms_handle_reset msgr:" << 
+  dout(10) << "agung:RESET ms_handle_reset msgr:" << 
         con->get_messenger() << " peer addr:" << 
         con->get_peer_addr() << dendl;
 

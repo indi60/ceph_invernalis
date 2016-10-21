@@ -1,0 +1,8 @@
+No symbol table is loaded.  Use the "file" command.
+Make breakpoint pending on future shared library load? (y or [n]) [answered N; input not from terminal]
+No breakpoint number 1.
+../commands.txt:4: Error in sourced command file:
+No breakpoints specified.
+Undefined command: "exit".  Try "help".
+Undefined command: "Close".  Try "help".
+Quit
